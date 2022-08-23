@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<channel>{% for key, value in article_list[0].items() %}
+  <{{ key }}>{{ value }}</{{ key }}>{% endfor %}
+  <item>{% for key, value in article_list[1].items() %}
+  <{{ key }}>{{ value }}</{{ key }}>{% endfor %}
+  </item>
+</channel>
+
+</rss>

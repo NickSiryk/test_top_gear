@@ -1,0 +1,15 @@
+FROM python:3.9.7-slim-buster
+WORKDIR /test_task_news
+
+COPY requirements.txt requirements.txt
+COPY . .
+
+RUN pip3 install -r requirements.txt
+RUN mkdir result
+
+RUN python3 work_dir/news_scrapper.py
+
+CMD ["python3"]
+
+
+
