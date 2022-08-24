@@ -1,6 +1,7 @@
 import requests
 import jinja2
 from bs4 import BeautifulSoup
+from urllib.parse import urlparse, urlunparse
 
 url = 'https://www.topgear.com/car-news/concept/lincoln-model-l100-concept-effortlessly-cool'
 
@@ -11,11 +12,15 @@ soup = BeautifulSoup(result.content, "html.parser")
 
 # Title info
 title = soup.find(attrs={"property": "og:site_name"})['content']
-link = soup.find(title="Home")['href']
+link = soup.find(attrs={"property": "og:url"})['content']
+parse_link = urlparse(link, scheme='https')
+empty = parse_link[:2] + ('',) * 4
+main_link = urlunparse(empty)
+
 
 channel = {
     'title': title,
-    'link': link,
+    'link': main_link,
     }
 
 # Main content
@@ -49,8 +54,6 @@ template = env.get_template('./work_dir/a.xml')
 ans = template.render(article_list=article_list)
 with open('./result/result.xml', 'w') as f:
     f.writelines(ans)
-
-
 
 
 
