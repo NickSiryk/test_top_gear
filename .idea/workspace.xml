@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="cac7e755-8477-4097-8a53-4d3287d9d4c9" name="Changes" comment="" />
+=======
+    <list default="true" id="cac7e755-8477-4097-8a53-4d3287d9d4c9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+>>>>>>> 2366d64 (new try)
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,6 +70,10 @@
       <updated>1661182742415</updated>
       <workItem from="1661182744819" duration="103000" />
       <workItem from="1661255436601" duration="5258000" />
+<<<<<<< HEAD
+=======
+      <workItem from="1661327827442" duration="5608000" />
+>>>>>>> 2366d64 (new try)
     </task>
     <servers />
   </component>
