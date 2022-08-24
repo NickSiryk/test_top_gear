@@ -1,15 +1,18 @@
 FROM python:3.9.7-slim-buster
+
 WORKDIR /test_task_news
+VOLUME /result
 
 COPY requirements.txt requirements.txt
 COPY . .
 
-RUN pip3 install -r requirements.txt
-RUN mkdir result
+RUN apt-get update \
+    && pip3 install -r requirements.txt
+    # && apt-get install xmlstarlet -y
+    # && cd result
+    # && xmlstarlet format result.xml
 
-RUN python3 work_dir/news_scrapper.py
-
-CMD ["python3"]
+CMD ["python3", "work_dir/news_scrapper.py"]
 
 
 

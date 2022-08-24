@@ -49,11 +49,14 @@ article_list = (channel, item)
 file_loader = jinja2.FileSystemLoader('.')
 env = jinja2.Environment(loader=file_loader)
 template = env.get_template('./work_dir/a.xml')
+# template = env.get_template('./a.xml')
 
 # uses template and writes file
 ans = template.render(article_list=article_list)
-with open('./result/result.xml', 'w') as f:
+with open('../result/result.xml', 'w') as f:
     f.writelines(ans)
+
+print(ans)
 
 
 
