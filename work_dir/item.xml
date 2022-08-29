@@ -1,0 +1,3 @@
+{% for item in article %}   <item>{% for key, value in item.items() %}
+    <{{ key }}>{{ value }}</{{ key }}>{% endfor %}
+  </item>{% endfor %}
