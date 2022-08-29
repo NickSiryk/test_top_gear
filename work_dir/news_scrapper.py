@@ -25,27 +25,35 @@ def article_scrap(article_url) -> dict:
     '''
 
     soup = soup_maker(article_url)
+    item_dict = {}
 
     try:
 
         # Main content
-        a = soup.find(attrs={"data-testid": "MainContent"})
-        title = a.find(attrs={"data-testid": "Canon"}).text
+        a = soup.find(attrs={"id": "content"})
+
+        title = a.find(attrs={"data-testid": "Canon"})
+        if title is None:
+            title = a.find(attrs={"data-testid": "Foolscap"}).text
+        else:
+            title = title.text
+
         category = a.find(attrs={"data-testid": "CategoryLink"}).text
-        date = list(a.find(attrs={"data-testid": "Brevier"}).stripped_strings)[1]
+
+        date = soup.find(attrs={"property": "article:published_time"})['content'][:10]
 
         d = a.find_all(attrs={"data-testid": "HtmlContent"})
         description = ''.join([marker.get_text() for marker in d])
 
-    except AttributeError:
-        item = {'title': 'Non standard article structure',
+    except:
+        item_dict = {'title': 'Non standard article structure',
             'category': "Non standard",
             'link': article_url
         }
 
     else:
 
-        item = {
+        item_dict = {
             'title': title,
             'category': category,
             'date': date,
@@ -54,7 +62,7 @@ def article_scrap(article_url) -> dict:
         }
 
     finally:
-        return item
+        return item_dict
 
 
 def load_more_and_get_links(articles_grid_url, global_main_link, pages=5) -> list:
@@ -101,7 +109,7 @@ channel = {
     }
 
 # list of all articles
-all_articles_urls = load_more_and_get_links(url, main_link, 0)
+all_articles_urls = load_more_and_get_links(url, main_link, 5)
 
 # load template
 file_loader = jinja2.FileSystemLoader('.')
@@ -109,23 +117,20 @@ env = jinja2.Environment(loader=file_loader)
 template_start = env.get_template('./work_dir/general_start.xml')
 template_item = env.get_template('./work_dir/item.xml')
 template_end = env.get_template('./work_dir/general_end.xml')
-# template_start = env.get_template('./general_start.xml')
-# template_item = env.get_template('./item.xml')
-# template_end = env.get_template('./general_end.xml')
 
 # uses template and writes file
 start = template_start.render(channel=channel)
 end = template_end.render()
 
-result_file = open('../result/result.xml', 'w')
-# result_file = open('./result.xml', 'w')
-result_file.writelines(start)
+result_file = open('../result/result.xml', 'w', encoding="utf-8")
+result_file.writelines(start.replace("&", "&amp;"))
 
-article_info = (article_scrap(item) for item in all_articles_urls)
+article_info = (article_scrap(url) for url in all_articles_urls)
 main_article = template_item.render(article=article_info)
-result_file.writelines(main_article)
 
-result_file.writelines(end)
+result_file.writelines(main_article.replace("&", "&amp;"))
+
+result_file.writelines(end.replace("&", "&amp;"))
 
 result_file.close()
 
